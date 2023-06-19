@@ -8,14 +8,15 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AnalyzeImage
     using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
     using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
 
+
     class Program
     {
 
         static void Main(string[] args)
         {
             // Add your Computer Vision subscription key and endpoint to your environment variables
-            string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY"); 
-            string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT");
+            string subscriptionKey = "582a22b95cad4f14aba95fe74560d1f7"; 
+            string endpoint = "https://stu-exam2-cv.cognitiveservices.azure.com/";
 
             try
             {
@@ -41,7 +42,8 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AnalyzeImage
             };
 
             string localImagePath = @"Images\celebrities.jpg"; // See this repo's readme.md for info on how to get these images. Alternatively, you can just set the path to any appropriate image on your machine.
-            string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/landmark.jpg";
+            //string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/landmark.jpg";
+            string remoteImageUrl = "https://static.independent.co.uk/s3fs-public/thumbnails/image/2015/06/06/15/Chris-Pratt.jpg";
 
             List<VisualFeatureTypes> features = new List<VisualFeatureTypes>()
             {
@@ -54,7 +56,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AnalyzeImage
 
             Console.WriteLine("Images being analyzed ...");
             await AnalyzeFromUrlAsync(computerVision, remoteImageUrl, features);
-            await AnalyzeLocalAsync(computerVision, localImagePath, features);
+            //await AnalyzeLocalAsync(computerVision, localImagePath, features);
         }
 
         // Analyze a remote image
@@ -67,7 +69,27 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AnalyzeImage
             }
 
             ImageAnalysis analysis = await computerVision.AnalyzeImageAsync(imageUrl, features);
+
+            //specific calls
+            TagResult res = await computerVision.TagImageAsync(imageUrl);
+            var ok1 = res.Tags[0].Name;
+            var ok2 = res.Tags[0].Confidence;
+
+            ImageDescription res2 = await computerVision.DescribeImageAsync(imageUrl);
+            var ok3 = res2.Captions[0];
+            var ok4 = res2.Tags[0];
+
+            DomainModelResults res3 = await computerVision.AnalyzeImageByDomainAsync("landmarks", imageUrl, null);
+            var ermmmm = res3.Result;
+
+            using (var stream = await computerVision.GenerateThumbnailAsync(100, 200, imageUrl))
+            {
+                //write stream to file
+            }
+
+
             DisplayResults(analysis, imageUrl);
+
         }
 
         // Analyze a local image
@@ -89,16 +111,16 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.AnalyzeImage
         private static void DisplayResults(ImageAnalysis analysis, string imagePath)
         {
             Console.WriteLine(imagePath);
-            DisplayImageDescription(analysis);
-            DisplayImageCategoryResults(analysis);
+            //DisplayImageDescription(analysis);
+            //DisplayImageCategoryResults(analysis);
             DisplayTagResults(analysis);
-            DisplayObjectDetectionResults(analysis);
-            DisplayFaceResults(analysis);
-            DisplayBrandDetectionResults(analysis);
-            DisplayAdultResults(analysis);
-            DisplayColorSchemeResults(analysis);
-            DisplayDomainSpecificResults(analysis);
-            DisplayImageTypeResults(analysis);
+            //DisplayObjectDetectionResults(analysis);
+            //DisplayFaceResults(analysis);
+            //DisplayBrandDetectionResults(analysis);
+            //DisplayAdultResults(analysis);
+            //DisplayColorSchemeResults(analysis);
+            //DisplayDomainSpecificResults(analysis);
+            //DisplayImageTypeResults(analysis);
         }
 
         private static void DisplayFaceResults(ImageAnalysis analysis)
