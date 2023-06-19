@@ -13,8 +13,8 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RecognizeText
         static void Main(string[] args)
         {
             // Add your Computer Vision subscription key and endpoint to your environment variables
-            string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY"); 
-            string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT");
+            string subscriptionKey = "582a22b95cad4f14aba95fe74560d1f7";
+            string endpoint = "https://stu-exam2-cv.cognitiveservices.azure.com/";
 
             try
             {
@@ -40,10 +40,13 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RecognizeText
             const int numberOfCharsInOperationId = 36;               //This is not a tune-able hyperparameter
 
             string localImagePath = @"Images\handwritten_text.jpg";  // See this repo's readme.md for info on how to get these images. Alternatively, you can just set the path to any appropriate image on your machine.
-            string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/printed_text.jpg";
+            //string remoteImageUrl = "https://www.algodocs.com/assets/img/articles/2021-10-14/handwritten-text-1.jpg";
+            //string remoteImageUrl = "https://github.com/Azure-Samples/cognitive-services-sample-data-files/raw/master/ComputerVision/Images/printed_text.jpg";
+            string remoteImageUrl = "https://www.africau.edu/images/default/sample.pdf";
+
 
             Console.WriteLine("Text being recognized ...");
-            await RecognizeTextFromStreamAsync(computerVision, localImagePath, numberOfCharsInOperationId, TextRecognitionMode.Handwritten);  //Use TextRecognitionMode.Printed for printed text
+            //await RecognizeTextFromStreamAsync(computerVision, localImagePath, numberOfCharsInOperationId, TextRecognitionMode.Handwritten);  //Use TextRecognitionMode.Printed for printed text
             await RecognizeTextFromUrlAsync(computerVision, remoteImageUrl, numberOfCharsInOperationId, TextRecognitionMode.Printed);
         }
 
@@ -57,7 +60,9 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.RecognizeText
             }
 
             // Start the async process to read the text
-            RecognizeTextHeaders textHeaders = await computerVision.RecognizeTextAsync(imageUrl, textRecognitionMode);
+            //RecognizeTextHeaders textHeaders = await computerVision.RecognizeTextAsync(imageUrl, textRecognitionMode);
+            BatchReadFileHeaders textHeaders = await computerVision.BatchReadFileAsync(imageUrl);
+
             await GetTextAsync(computerVision, textHeaders.OperationLocation, numberOfCharsInOperationId);
         }
 

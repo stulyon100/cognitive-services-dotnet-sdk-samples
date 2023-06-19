@@ -13,8 +13,8 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.OCR
         static void Main(string[] args)
         {
             // Add your Computer Vision subscription key and endpoint to your environment variables
-            string subscriptionKey = Environment.GetEnvironmentVariable("COMPUTER_VISION_SUBSCRIPTION_KEY"); 
-            string endpoint = Environment.GetEnvironmentVariable("COMPUTER_VISION_ENDPOINT");
+            string subscriptionKey = "582a22b95cad4f14aba95fe74560d1f7";
+            string endpoint = "https://stu-exam2-cv.cognitiveservices.azure.com/";
 
             try
             {
@@ -46,7 +46,7 @@ namespace Microsoft.Azure.CognitiveServices.Samples.ComputerVision.OCR
             Console.WriteLine("OCR on the images");
 
             await OCRFromUrlAsync(computerVision, remoteImageUrl);
-            await OCRFromStreamAsync(computerVision, localImagePath);
+            //await OCRFromStreamAsync(computerVision, localImagePath);
         }
 
         // Analyze a remote image
